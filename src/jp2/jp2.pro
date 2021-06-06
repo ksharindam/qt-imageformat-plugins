@@ -1,9 +1,7 @@
 TARGET  = qjp2
 TEMPLATE = lib
-CONFIG += plugin
-
-INCLUDEPATH += /usr/include/openjpeg-2.3
-LIBS += -lopenjp2
+CONFIG += plugin link_pkgconfig
+PKGCONFIG += libopenjp2
 
 target.path += $$[QT_INSTALL_PLUGINS]/imageformats
 INSTALLS += target
