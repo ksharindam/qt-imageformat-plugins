@@ -1,22 +1,14 @@
 #include "jp2-handler.h"
-#include <QImageIOPlugin>
+#include "jp2-plugin.h"
 
-class Jp2Plugin : public QImageIOPlugin
-{
-public:
-    QStringList      keys() const;
-    Capabilities     capabilities(QIODevice *device, const QByteArray &format) const;
-    QImageIOHandler* create(QIODevice *device, const QByteArray &format = QByteArray()) const;
-
-    QStringList readable = {"jp2", "j2k", "j2c", "jpf", "jpx", "jpm"};
-};
-
+#if QT_VERSION < QT_VERSION_CHECK(5,0,0)
 Q_EXPORT_PLUGIN2(qjp2, Jp2Plugin)
+#endif
 
 QStringList
 Jp2Plugin:: keys() const
 {
-     return readable;
+     return supported;
 }
 
 QImageIOPlugin::Capabilities
@@ -25,7 +17,7 @@ Jp2Plugin:: capabilities(QIODevice *device, const QByteArray &format) const
     if (format == "jp2") {
         return Capabilities(CanRead | CanWrite);
     }
-    if (readable.contains(format))
+    if (supported.contains(format))
         return Capabilities(CanRead);
 
     Capabilities cap;

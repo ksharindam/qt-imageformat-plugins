@@ -1,12 +1,14 @@
 # Qt4 imageformat plugins
-Some unofficial image format plugins for Qt4  
+Some unofficial image format plugins for Qt4, Qt5  
 
 ### Supported Image Formats :
 * JPEG2000 (JP2)  
 * WebP  
 
 ### Build and Install
-To build at first install libqt4-dev and build dependencies for each plugin.  
+Install Build Dependencies  
+* libqt4-dev (or qtbase5-dev)  
+* build dependencies for each plugin  
 
 To build all plugins Open terminal in src/ directory and run  
 `qmake`  

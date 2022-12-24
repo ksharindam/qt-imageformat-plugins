@@ -209,13 +209,13 @@ sycc420_to_rgb (opj_image_t *img)
   img->comps[1].dy = img->comps[2].dy = img->comps[0].dy;
   img->color_space = OPJ_CLRSPC_SRGB;
 
-  return TRUE;
+  return true;
 
  out:
   free (r);
   free (g);
   free (b);
-  return FALSE;
+  return false;
 }
 
 static bool
@@ -308,13 +308,13 @@ sycc422_to_rgb (opj_image_t *img)
   img->comps[1].dy = img->comps[2].dy = img->comps[0].dy;
   img->color_space = OPJ_CLRSPC_SRGB;
 
-  return (TRUE);
+  return (true);
 
  out:
   free (r);
   free (g);
   free (b);
-  return (FALSE);
+  return (false);
 }
 
 static bool
@@ -366,13 +366,13 @@ sycc444_to_rgb (opj_image_t *img)
   img->comps[2].data = d2;
 
   img->color_space = OPJ_CLRSPC_SRGB;
-  return TRUE;
+  return true;
 
  out:
   free (r);
   free (g);
   free (b);
-  return FALSE;
+  return false;
 }
 
 static bool
@@ -381,7 +381,7 @@ color_sycc_to_rgb (opj_image_t *img)
   if (img->numcomps < 3)
     {
       img->color_space = OPJ_CLRSPC_GRAY;
-      return TRUE;
+      return true;
     }
   else if ((img->comps[0].dx == 1) &&
            (img->comps[1].dx == 2) &&
@@ -416,6 +416,6 @@ color_sycc_to_rgb (opj_image_t *img)
   else
     {
       printf("Cannot convert in color_sycc_to_rgb()\n");
-      return FALSE;
+      return false;
     }
 }

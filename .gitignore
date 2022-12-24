@@ -6,6 +6,7 @@
 
 # Auto-genereated files
 Makefile
+.qmake.stash
 moc_*.cpp
 build/
 
