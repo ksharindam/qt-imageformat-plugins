@@ -1,5 +1,5 @@
 /*  This file is a part of qt4-imageformat-plugins project, and is GNU LGPLv2.1 licensed
-    Copyright (C) 2020 Arindam Chaudhuri <ksharindam@gmail.com>
+    Copyright (C) 2020-2023 Arindam Chaudhuri <ksharindam@gmail.com>
 */
 #include "jp2-handler.h"
 #include "color.h"

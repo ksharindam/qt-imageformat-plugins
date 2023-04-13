@@ -1,7 +1,8 @@
 # Qt4 imageformat plugins
-Some unofficial image format plugins for Qt4, Qt5  
+Some unofficial image format plugins for Qt4, Qt5 (and maybe Qt6)  
 
 ### Supported Image Formats :
+* Avif
 * JPEG2000 (JP2)  
 * WebP  
 
@@ -21,6 +22,13 @@ Or to make individual plugins, open terminal in each plugin directory and run
 `sudo make install`  
 
 After build is complete, keep runtime dependencies and uninstall build dependencies.  
+
+### Avif
+Build Dependencies:  
+* libavif-dev  
+
+Runtime Dependencies:  
+* libavif7  
 
 ### JPEG2000
 Build Dependencies:  
