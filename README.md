@@ -1,4 +1,4 @@
-# Qt4 imageformat plugins
+# Qt imageformat plugins
 Some unofficial image format plugins for Qt4, Qt5 (and maybe Qt6)  
 
 ### Supported Image Formats :
