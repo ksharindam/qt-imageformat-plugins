@@ -5,10 +5,11 @@ Some unofficial image format plugins for Qt4, Qt5 (and maybe Qt6)
 * Avif
 * JPEG2000 (JP2)  
 * WebP  
+* SVG (using librsvg2)  
 
 ### Build and Install
 Install Build Dependencies  
-* libqt4-dev (or qtbase5-dev)  
+* qtbase5-dev  
 * build dependencies for each plugin  
 
 To build all plugins Open terminal in src/ directory and run  
@@ -43,3 +44,13 @@ Build Dependencies:
 
 Runtime Dependencies:  
 * libwebp6  
+
+### Svg
+Build Dependencies:  
+* librsvg2-dev  
+* libcairo2-dev  
+
+Runtime Dependencies:  
+* librsvg2  
+* libcairo2  
+

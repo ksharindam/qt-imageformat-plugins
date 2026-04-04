@@ -1,2 +1,2 @@
 TEMPLATE = subdirs
-SUBDIRS = jp2 webp
+SUBDIRS = jp2 webp avif svg
