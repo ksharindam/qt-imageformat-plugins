@@ -99,8 +99,8 @@ QImage readImage(QIODevice *device)
     cairo_t *cr = cairo_create(surface);
 
     // Set background to white
-    cairo_set_source_rgb(cr, 1, 1, 1);
-    cairo_paint(cr);
+    //cairo_set_source_rgb(cr, 1, 1, 1);
+    //cairo_paint(cr);
 
     // Render SVG to cairo surface
     rsvg_handle_render_cairo(handle, cr);
