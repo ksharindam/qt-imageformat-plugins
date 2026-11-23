@@ -1,8 +1,6 @@
 TARGET  = qwebp
 TEMPLATE = lib
 CONFIG += plugin
-CONFIG -= debug_and_release debug
-QMAKE_CXXFLAGS = -std=c++11
 
 INCLUDEPATH +=
 LIBS += -lwebp

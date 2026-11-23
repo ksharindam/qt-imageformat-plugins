@@ -1,15 +1,16 @@
 # Qt imageformat plugins
-Some unofficial image format plugins for Qt4, Qt5 (and maybe Qt6)  
+Some unofficial image format plugins for Qt6  
 
 ### Supported Image Formats :
-* Avif
+* Avif  
 * JPEG2000 (JP2)  
 * WebP  
 * SVG (using librsvg2)  
 
 ### Build and Install
 Install Build Dependencies  
-* qtbase5-dev  
+* qt6-base-dev  
+* build-essential  
 * build dependencies for each plugin  
 
 To build all plugins Open terminal in src/ directory and run  
