@@ -1,42 +1,56 @@
 #include "gdkpixbuf-plugin.h"
+#include <QByteArray>
+#include <QIODevice>
+#include <QStringList>
+#include <QImage>
 
-#include <QDebug>
-#include <cstring>
-
-// GLib defines a "signals" macro that conflicts with Qt's keyword macro.
+// GLib defines a "signals" macro, which conflicts with Qt's keyword macro.
 #undef signals
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #define signals Q_SIGNALS
 
-namespace {
+bool supportsFormat(const QByteArray &format);
 
-bool canDecode(QIODevice *device)
+
+QImageIOPlugin::Capabilities
+GdkPixbufPlugin::capabilities(QIODevice *device, const QByteArray &format) const
 {
     if (!device || !device->isOpen() || !device->isReadable())
-        return false;
+        return Capabilities();
 
-    // peek() preserves the device position, which is important because Qt calls
-    // capabilities() before handing the device to the handler.
-    const QByteArray header = device->peek(64 * 1024);
-    if (header.isEmpty())
-        return false;
+    if (!format.isEmpty())
+        return supportsFormat(format) ? Capabilities(CanRead) : Capabilities();
 
-    GdkPixbufLoader *loader = gdk_pixbuf_loader_new();
-    GError *error = nullptr;
-    const gboolean accepted = gdk_pixbuf_loader_write(
-        loader,
-        reinterpret_cast<const guchar *>(header.constData()),
-        static_cast<gsize>(header.size()),
-        &error);
-    const bool recognized = accepted && gdk_pixbuf_loader_get_format(loader);
-
-    if (error)
-        g_error_free(error);
-    g_object_unref(loader);
-    return recognized;
+    return canReadImage(device) ? Capabilities(CanRead) : Capabilities();
 }
 
-QImage decode(QIODevice *device)
+QImageIOHandler *
+GdkPixbufPlugin::create(QIODevice *device, const QByteArray &format) const
+{
+    QImageIOHandler *handler = new GdkPixbufHandler;
+    handler->setDevice(device);
+    handler->setFormat(format);
+    return handler;
+}
+
+// --------- handler -------------
+
+bool GdkPixbufHandler::canRead() const
+{
+    return canReadImage(device());
+}
+
+bool GdkPixbufHandler::read(QImage *image)
+{
+    QImage decoded = readImage(device());
+    if (decoded.isNull())
+        return false;
+    *image = decoded;
+    return true;
+}
+
+
+QImage readImage(QIODevice *device)
 {
     if (!device)
         return QImage();
@@ -90,47 +104,67 @@ QImage decode(QIODevice *device)
     return image;
 }
 
-} // namespace
 
-QImageIOPlugin::Capabilities
-GdkPixbufPlugin::capabilities(QIODevice *device, const QByteArray &format) const
+bool canReadImage(QIODevice *device)
 {
-    if (!format.isEmpty()) {
-        // Metadata keys declare common extensions; let gdk-pixbuf validate the
-        // actual content rather than trusting the filename alone.
-        if (format == "bmp" || format == "gif" || format == "ico" ||
-            format == "jpeg" || format == "jpg" || format == "png" ||
-            format == "tif" || format == "tiff" || format == "xbm" ||
-            format == "xpm" || format == "webp" || format == "avif")
-            return device && device->isReadable() ? Capabilities(CanRead) : Capabilities();
-        return Capabilities();
+    if (!device || !device->isOpen() || !device->isReadable())
+        return false;
+
+    const QByteArray prefix = device->peek(4096);
+    if (prefix.isEmpty())
+        return false;
+
+    GdkPixbufLoader *loader = gdk_pixbuf_loader_new();
+    GError *error = NULL;
+    const gboolean accepted = gdk_pixbuf_loader_write(
+        loader,
+        reinterpret_cast<const guchar *>(prefix.constData()),
+        static_cast<gsize>(prefix.size()),
+        &error);
+    GdkPixbufFormat *format = accepted ? gdk_pixbuf_loader_get_format(loader) : NULL;
+
+    if (error)
+        g_error_free(error);
+    g_object_unref(loader);
+    return format != NULL;
+}
+
+
+namespace {
+
+QStringList supportedFormats()
+{
+    QStringList extensions;
+    GSList *formats = gdk_pixbuf_get_formats();
+
+    for (GSList *item = formats; item; item = item->next) {
+        GdkPixbufFormat *format = static_cast<GdkPixbufFormat *>(item->data);
+        if (gdk_pixbuf_format_is_disabled(format))
+            continue;
+
+        gchar **formatExtensions = gdk_pixbuf_format_get_extensions(format);
+        for (gchar **extension = formatExtensions; extension && *extension; ++extension) {
+            const QString key = QString::fromLatin1(*extension).toLower();
+            if (!extensions.contains(key))
+                extensions.append(key);
+        }
+        g_strfreev(formatExtensions);
     }
 
-    return canDecode(device) ? Capabilities(CanRead) : Capabilities();
+    extensions.sort();
+    g_slist_free(formats);
+    return extensions;
 }
 
-QImageIOHandler *GdkPixbufPlugin::create(QIODevice *device,
-                                         const QByteArray &format) const
-{
-    QImageIOHandler *handler = new GdkPixbufHandler;
-    handler->setDevice(device);
-    handler->setFormat(format);
-    return handler;
-}
+} // namespace
 
-bool GdkPixbufHandler::canRead() const
+bool supportsFormat(const QByteArray &format)
 {
-    return canDecode(device());
-}
-
-bool GdkPixbufHandler::read(QImage *image)
-{
-    if (!image)
+    if (format.isEmpty())
         return false;
 
-    const QImage decoded = decode(device());
-    if (decoded.isNull())
-        return false;
-    *image = decoded;
-    return true;
+    const QString key = QString::fromLatin1(format).toLower();
+    return supportedFormats().contains(key);
 }
+
+

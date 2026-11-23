@@ -1,9 +1,9 @@
-TARGET = qgdkpixbuf
+TARGET  = qgdkpixbuf
 TEMPLATE = lib
 CONFIG += plugin link_pkgconfig
 PKGCONFIG += gdk-pixbuf-2.0
 
- target.path += $$[QT_INSTALL_PLUGINS]/imageformats
+target.path += $$[QT_INSTALL_PLUGINS]/imageformats
 INSTALLS += target
 
 DESTDIR = ..
