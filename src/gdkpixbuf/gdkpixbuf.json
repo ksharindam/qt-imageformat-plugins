@@ -1,0 +1,4 @@
+{
+    "Keys": [ "avif", "bmp", "gif", "ico", "jpeg", "jpg", "png", "tif", "tiff", "webp", "xbm", "xpm" ],
+    "MimeTypes": [ "image/avif", "image/bmp", "image/gif", "image/jpeg", "image/png", "image/tiff", "image/webp", "image/x-xbitmap", "image/x-xpixmap" ]
+}
