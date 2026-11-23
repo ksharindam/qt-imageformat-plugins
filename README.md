@@ -58,9 +58,8 @@ Runtime Dependencies:
 
 ### GdkPixbuf
 Build Dependencies:  
-* libgdk-pixbuf-2.0-dev (package name may vary by distribution)  
+* libgdk-pixbuf-2.0-dev  
 
 Runtime Dependencies:  
-* libgdk-pixbuf-2.0-0 and the loader modules for the image formats you need  
+* libgdk-pixbuf-2.0-0  
 
-This plugin delegates decoding to the installed gdk-pixbuf loaders, so the set of readable formats depends on the loaders available on the target system. It recognizes common image extensions and also probes image data when Qt supplies no format.

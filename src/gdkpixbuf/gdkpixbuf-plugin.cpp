@@ -26,7 +26,7 @@ bool canDecode(QIODevice *device)
     const gboolean accepted = gdk_pixbuf_loader_write(
         loader,
         reinterpret_cast<const guchar *>(header.constData()),
-        static_cast gsize(header.size()),
+        static_cast<gsize>(header.size()),
         &error);
     const bool recognized = accepted && gdk_pixbuf_loader_get_format(loader);
 
@@ -50,7 +50,7 @@ QImage decode(QIODevice *device)
     gboolean ok = gdk_pixbuf_loader_write(
         loader,
         reinterpret_cast<const guchar *>(bytes.constData()),
-        static_cast gsize(bytes.size()),
+        static_cast<gsize>(bytes.size()),
         &error);
     if (ok)
         ok = gdk_pixbuf_loader_close(loader, &error);
