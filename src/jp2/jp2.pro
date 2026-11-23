@@ -1,4 +1,4 @@
-TARGET  = qjp2
+TARGET  = img_jp2
 TEMPLATE = lib
 CONFIG += plugin link_pkgconfig
 PKGCONFIG += libopenjp2

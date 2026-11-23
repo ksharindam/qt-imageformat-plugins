@@ -1,4 +1,4 @@
-TARGET  = qrsvg
+TARGET  = img_rsvg
 TEMPLATE = lib
 CONFIG += plugin link_pkgconfig
 PKGCONFIG += librsvg-2.0

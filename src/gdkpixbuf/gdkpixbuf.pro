@@ -1,4 +1,4 @@
-TARGET  = qgdkpixbuf
+TARGET  = img_gdkpixbuf
 TEMPLATE = lib
 CONFIG += plugin link_pkgconfig
 PKGCONFIG += gdk-pixbuf-2.0

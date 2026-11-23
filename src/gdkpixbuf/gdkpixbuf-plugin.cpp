@@ -20,7 +20,6 @@ GdkPixbufPlugin::capabilities(QIODevice *device, const QByteArray &format) const
 
     if (!format.isEmpty())
         return supportsFormat(format) ? Capabilities(CanRead) : Capabilities();
-
     return canReadImage(device) ? Capabilities(CanRead) : Capabilities();
 }
 
@@ -125,6 +124,7 @@ bool canReadImage(QIODevice *device)
 
     if (error)
         g_error_free(error);
+    gdk_pixbuf_loader_close(loader, &error);
     g_object_unref(loader);
     return format != NULL;
 }

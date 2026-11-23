@@ -1,4 +1,4 @@
-TARGET  = qwebp
+TARGET  = img_webp
 TEMPLATE = lib
 CONFIG += plugin
 

@@ -1,4 +1,4 @@
-TARGET  = qavif
+TARGET  = img_avif
 TEMPLATE = lib
 CONFIG += plugin
 
